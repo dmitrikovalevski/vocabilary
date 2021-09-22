@@ -37,12 +37,26 @@ schema_view = get_schema_view(
     permission_classes=(permissions.AllowAny,),
 )
 
+# Создадим объект роутера
+from rest_framework import routers
+# Позовём представления из api.py
+from Word.api import RussianWordViewSet, EnglishWordViewSet
+
+# Это пути по которым будем ходить к нашим api представлениям (views)
+router = routers.DefaultRouter()
+# Регистрация для модели Рус-Англ слов
+router.register('russian', RussianWordViewSet)
+# Регистрация для модели Англ-Рус слов
+router.register('english', EnglishWordViewSet)
+
 urlpatterns = [
     # Путь на моё приложение
     path('', include('Word.urls')),
     # Пути к swagger и документации
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
+    # Путь, который будет указан в браузере
+    path('v1/', include(router.urls)),
     # Админка
     path('admin/', admin.site.urls),
 ]

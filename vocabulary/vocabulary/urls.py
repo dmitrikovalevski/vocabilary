@@ -14,8 +14,35 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
+
+# Добавим в urls swagger
+from rest_framework import permissions  # Разрешения доступа пользователей
+from drf_yasg.views import get_schema_view  # Сама схема swagger
+from drf_yasg import openapi  # Описание схемы swagger
+
+# Переменная для схемы
+schema_view = get_schema_view(
+    # информация схемы
+    openapi.Info(
+        title="RussianEnglishWord API",
+        default_version='v1',
+        description='''
+        Documentation `ReDoc` [here](/redoc).
+      ''',
+        contact=openapi.Contact(email="dzmitry.kavaleuski"),
+        license=openapi.License(name="BSD License"),
+    ),
+    public=True,
+    permission_classes=(permissions.AllowAny,),
+)
 
 urlpatterns = [
+    # Путь на моё приложение
+    path('', include('Word.urls')),
+    # Пути к swagger и документации
+    path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
+    path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
+    # Админка
     path('admin/', admin.site.urls),
 ]

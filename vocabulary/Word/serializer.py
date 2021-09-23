@@ -7,10 +7,10 @@ from .models import RussianWord, EnglishWord
 class RussianWordSerializer(serializers.ModelSerializer):
     class Meta:
         model = RussianWord
-        fields = ['russian', 'english']
+        fields = ['pk', 'russian', 'english']
 
 
 class EnglishWordSerializer(serializers.ModelSerializer):
     class Meta:
         model = EnglishWord
-        fields = ['english', 'russian']
+        fields = ['pk', 'english', 'russian']

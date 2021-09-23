@@ -1,0 +1,5 @@
+npm run dev:ssr - запуск сервера разработки (не для развёртывания)
+
+ng add @ng-bootstrap/ng-bootstrap - установка bootstrap
+
+Бесконечные запросы
